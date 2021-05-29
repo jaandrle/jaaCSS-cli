@@ -1,0 +1,10 @@
+{
+    "include": [
+        "src/**/*",
+        "src/*",
+        "node_modules/gulp-place/jsdoc/*.js"
+    ],
+    "compilerOptions": {
+        "target": "es2018"
+    }
+}

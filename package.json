@@ -1,0 +1,47 @@
+{
+  "name": "jaacss-cli",
+  "version": "1.2.1",
+  "description": "EXPERIMENT – Helper for managing functional CSS classes",
+  "main": "jaaCSS.js",
+  "scripts": {
+    "test": "node jaaCSS.js",
+    "gulp": "npx gulp",
+    "jshint": "node ./node_modules/jshint/bin/jshint --verbose",
+    "jshint_full": "node ./node_modules/jshint/bin/jshint --verbose --show-non-errors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaandrle/jaaCSS-cli.git"
+  },
+  "keywords": [
+    "css",
+    "utility css",
+    "utility first css",
+    "functional css",
+    "atomic css",
+    "cli"
+  ],
+  "author": "Jan Andrle <andrle.jan@centrum.cz>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jaandrle/jaaCSS-cli/issues"
+  },
+  "homepage": "https://github.com/jaandrle/jaaCSS-cli#readme",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-place": "^1.8.2",
+    "jshint": "^2.12.0"
+  },
+  "jshintConfig": {
+    "esversion": 8,
+    "node": "true",
+    "undef": "true",
+    "latedef": "true",
+    "maxparams": 3,
+    "maxdepth": 2,
+    "maxcomplexity": 10,
+    "globals": {
+      "gulp_place": false
+    }
+  }
+}

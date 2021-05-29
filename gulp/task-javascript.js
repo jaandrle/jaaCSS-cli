@@ -2,6 +2,7 @@
 const { app, scripts, gulp: { src, dest } }= global; /* exported app */ 
 const { createWriteStream }= require("fs");
 const { spawn }= require("child_process");
+const jsbeautifier= require("gulp-jsbeautifier");
 const gulpPlace= require("gulp-place")({
     /* jshint -W061 */
     variable_eval: str=> eval(str),
@@ -14,6 +15,12 @@ function javascript(done){
     const folder= app.targets.from;
     src([ `${folder}*.js`, `!${folder}*.sub.js` ])
         .pipe(gulpPlace({ folder, string_wrapper: '"' }))
+        .pipe(jsbeautifier({
+            indent_size: 2,
+            brace_style: "collapse",
+            jslint_happy: true,
+            preserve_newlines: false,
+        }))
         .pipe(dest(app.targets.to))
         .on("end", e=> e ? done(e) : jsHint_(folder).then(done));
 }

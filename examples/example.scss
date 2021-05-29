@@ -1,0 +1,20 @@
+:root{
+    --test: 1;
+}
+/* not affected */
+
+/* jaaCSS:start */
+@mixin F_alignS__c { align-self: center; } .F_alignS__c { @include F_alignS__c(); }
+@mixin display__f { display: flex; } .display__f { @include display__f(); }
+@mixin display__inlineBlock { display: inline-block; } .display__inlineBlock { @include display__inlineBlock(); }
+@mixin fontS__1 { font-size: 1rem; } .fontS__1 { @include fontS__1(); }
+@mixin fontS__2 { font-size: 2rem; } .fontS__2 { @include fontS__2(); }
+@mixin marginTB__1 { margin-top: 1rem; margin-bottom: 1rem; } .marginTB__1 { @include marginTB__1(); }
+/* jaaCSS:end */
+
+.C_bemForExample{
+    @include F_alignS__c();
+    @include display__f();
+    @include fontS__1();
+    @include marginTB__1();
+}

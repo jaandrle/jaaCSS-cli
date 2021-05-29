@@ -1,0 +1,24 @@
+:root{
+    --test: 1;
+}
+/* not affected */
+
+/* jaaCSS:start */
+.F_justify__fE { justify-content: flex-end; }
+.F_size__1 { flex: 1; }
+.F_size__1_1 { flex: 1 1; }
+.display__f { display: flex; }
+.display__none { display: none; }
+.fontS__1 { font-size: 1rem; }
+.fontW__bold { font-weight: bold; }
+.marginRL__1 { margin-right: 1rem; margin-left: 1rem; }
+.margin__0 { margin: 0; }
+.objectF__contain { object-fit: contain; }
+.textA__c { text-align: center; }
+/* jaaCSS:end */
+
+.C_bemTest{
+  display: flex;
+  font-size: 1rem;
+  font-weight: bold;
+}

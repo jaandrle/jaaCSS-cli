@@ -29,6 +29,7 @@
   "homepage": "https://github.com/jaandrle/jaaCSS-cli#readme",
   "devDependencies": {
     "gulp": "^4.0.2",
+    "gulp-jsbeautifier": "^3.0.1",
     "gulp-place": "^1.8.2",
     "jshint": "^2.12.0"
   },

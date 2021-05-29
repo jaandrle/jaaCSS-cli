@@ -23,6 +23,7 @@ Modified files should look like:
 - [./examples/example.scss](./examples/example.css)
 
 ## CLI help
+### main
 ```
   jaaCSS@1.2.1
   EXPERIMENT – Helper for managing functional CSS classes
@@ -58,4 +59,25 @@ Modified files should look like:
         The value part for evaluing in the form:
           - `property: value;` …or
           - `property__value`
+```
+### interactive mod
+```
+node jaaCSS.js "-I" "example.css"
+
+  jaaCSS@1.2.1
+  EXPERIMENT – Helper for managing functional CSS classes
+  Usage: jaaCSS --[cmd] [param]
+    …cmd: help, init, html, interactive, eval
+    …param: Based on cmd
+
+  Interactive shell
+  q: Quit interactive shell
+   : Just echo full rule (e.g. `fontS__1`)
+  ?: Searching registered rules (e.g. `? fontS`)
+  +: Add rule to the file (e.g. `+ fontS__1`)
+  -: Remove rule to the file (e.g. `- fontS__1`)
+  !: Add rule by full recepy (e.g. `! color__urgent { color: red; }`
+  =: [WIP] Compare classes in CSS like file and HTML like one (`>` only in CSS | `<` only in HTML)
+  @: Converting class names (for example from HTML) to the CSS rules/SASS includes.
+  just write anything to converse or start line with: q/ /?/+/-/!/=/@
 ```

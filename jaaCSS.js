@@ -11,7 +11,7 @@
  */
 const info = {
   name: __filename.slice(__filename.lastIndexOf("/") + 1, __filename.lastIndexOf(".")),
-  version: "1.2.1",
+  version: "1.2.2",
   description: "EXPERIMENT – Helper for managing functional CSS classes",
   cwd: process.cwd(),
   /** @type {T_info_cmd[]} */
@@ -348,7 +348,7 @@ const csv = JSON.parse(`{
 function toClassValue(property, value) {
   if (!/\d/.test(value)) return "__" + (Reflect.has(csv, value) ? Reflect.get(csv, value) : toCamelCase(value));
   if (/ /.test(value)) return "__" + value.replace(/%/g, "pct").replace(/ /g, "_");
-  const [number, measurement = ""] = value.split(/(?<=\d)(?=\D)/);
+  const [number, measurement = ""] = value.split(/(?<=\d)(?=[a-zA-Z])/);
   const number_s = parseFloat(number).toString().split("").map(l => l === "-" ? "m" : (l === "." ? "d" : l)).join("");
   return "__" + number_s + (Reflect.get(cnv, property) === measurement ? "" : measurement.replace(/%/g, "pct"));
 }

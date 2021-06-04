@@ -28,3 +28,8 @@ const csv= JSON.parse(`{
     "left":"l","right":"r","center":"c",
     "column nowrap":"cN","column wrap":"cW","row nowrap":"rN","row wrap":"rW","flex-start":"fS","flex-end":"fE","space-between":"sB","space-evenly":"sE",
     "uppercase":"uCase","lowercase":"lCase"}`);
+
+function testMultipleValuesCSV(i, property){
+    if(i!==5) return true;
+    return property==="position";
+}

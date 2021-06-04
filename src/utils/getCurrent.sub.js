@@ -24,7 +24,7 @@ function getCurrent(args){
         param= args[i];
     }
     if(!command)
-        command= { cmd: "help" };
+        command= { cmd: "" };
     if(command.param&&typeof param==="undefined")
         return error(`Missign argument(s).`);
     return { command, param };

@@ -1,4 +1,4 @@
-gulp_place("consts/cp_cnv_csv.sub.js", "file_once");/* global cp, csv */
+gulp_place("consts/cp_cnv_csv.sub.js", "file_once");/* global cp, csv, testMultipleValuesCSV */
 gulp_place("./toClassValue.sub.js", "file_once");/* global toClassValue */
 gulp_place("./toValue.sub.js", "file_once");/* global toValue */
 
@@ -8,7 +8,7 @@ function fromClass(param){
     const p_idx= Object.values(cp).indexOf(to_property);
     const property= p_idx!==-1 ? Object.keys(cp)[p_idx] : to_property.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
     if(p_idx===-1&&typeof cp[property]!=="undefined") to_property= cp[property];
-    const v_idx= Object.values(csv).indexOf(to_value);
+    const v_idx= Object.values(csv).findIndex((v, i)=> v===to_value&&testMultipleValuesCSV(i, property));
     const value= v_idx!==-1 ? Object.keys(csv)[v_idx] : toValue(property, to_value);
     return [ to_property+toClassValue(property, value), property+": "+value+";" ];
 }

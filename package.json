@@ -1,6 +1,6 @@
 {
   "name": "jaacss-cli",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "EXPERIMENT – Helper for managing functional CSS classes",
   "main": "jaaCSS.js",
   "scripts": {

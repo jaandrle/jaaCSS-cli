@@ -11,7 +11,7 @@
  */
 const info = {
   name: __filename.slice(__filename.lastIndexOf("/") + 1, __filename.lastIndexOf(".")),
-  version: "1.2.2",
+  version: "1.2.3",
   description: "EXPERIMENT – Helper for managing functional CSS classes",
   cwd: process.cwd(),
   /** @type {T_info_cmd[]} */
@@ -110,7 +110,7 @@ function getCurrent(args) {
     param = args[i];
   }
   if (!command) command = {
-    cmd: "help"
+    cmd: ""
   };
   if (command.param && typeof param === "undefined") return error(`Missign argument(s).`);
   return {
@@ -345,6 +345,11 @@ const csv = JSON.parse(`{
     "column nowrap":"cN","column wrap":"cW","row nowrap":"rN","row wrap":"rW","flex-start":"fS","flex-end":"fE","space-between":"sB","space-evenly":"sE",
     "uppercase":"uCase","lowercase":"lCase"}`);
 
+function testMultipleValuesCSV(i, property) {
+  if (i !== 5) return true;
+  return property === "position";
+}
+
 function toClassValue(property, value) {
   if (!/\d/.test(value)) return "__" + (Reflect.has(csv, value) ? Reflect.get(csv, value) : toCamelCase(value));
   if (/ /.test(value)) return "__" + value.replace(/%/g, "pct").replace(/ /g, "_");
@@ -366,7 +371,7 @@ function fromClass(param) {
   const p_idx = Object.values(cp).indexOf(to_property);
   const property = p_idx !== -1 ? Object.keys(cp)[p_idx] : to_property.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
   if (p_idx === -1 && typeof cp[property] !== "undefined") to_property = cp[property];
-  const v_idx = Object.values(csv).indexOf(to_value);
+  const v_idx = Object.values(csv).findIndex((v, i) => v === to_value && testMultipleValuesCSV(i, property));
   const value = v_idx !== -1 ? Object.keys(csv)[v_idx] : toValue(property, to_value);
   return [to_property + toClassValue(property, value), property + ": " + value + ";"];
 }

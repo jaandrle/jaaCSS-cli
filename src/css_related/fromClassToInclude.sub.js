@@ -6,7 +6,10 @@ gulp_place("./fromClass.sub.js", "file_once");/* global fromClass */
 function fromClassToInclude(file, line){
     log(1, "@g_printing…");
     const rules= line.split(" ").map(r=> r.trim()).sort();
-    logLines(1, isFileExtEq(file, "scss") ?
-        rules.map(r=> `@include ${r}();`) :
-        rules.map(r=> fromClass(r)[1]));
+    const convertRule=  isFileExtEq(file, "scss") ?
+                        r=> `@include ${r}();` : (
+                    isFileExtEq(file, "styl") ?
+                        r=> r+"();" :
+                        r=> fromClass(r)[1] );
+    logLines(1, rules.map(convertRule));
 }

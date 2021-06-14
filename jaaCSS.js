@@ -11,7 +11,7 @@
  */
 const info = {
   name: __filename.slice(__filename.lastIndexOf("/") + 1, __filename.lastIndexOf(".")),
-  version: "1.2.3",
+  version: "1.3.0",
   description: "EXPERIMENT – Helper for managing functional CSS classes",
   cwd: process.cwd(),
   /** @type {T_info_cmd[]} */
@@ -270,14 +270,19 @@ function isFileExtEq(file, target = "scss") {
   return file.slice(-target.length - 1) === "." + target;
 }
 
+function toCSSRule(file, name, rule) {
+  if (isFileExtEq(file, "scss")) return `@mixin ${name} { ${rule} } .${name} { @include ${name}(); }`;
+  if (isFileExtEq(file, "styl")) return `${name}() { ${rule} } .${name} { ${name}(); }`;
+  return `.${name} { ${rule} }`;
+}
+
 function updateFile(file, op, [name, rule]) {
   log(2, op === "+" ? "@s_adding…" : "@e_removing…");
   logRule(2, [name, rule]);
   const [, , rules] = fileDataCSS(file);
   if (op === "-") file_data[2] = rules.filter(l => l.indexOf(name.trim() + " ") === -1);
   else {
-    //'.styl'?: `fontS__1(){font-size: 1rem;}\n.fontS__1{\nfontS__1();\n}`
-    rules.push(isFileExtEq(file, "scss") ? `@mixin ${name} { ${rule} } .${name} { @include ${name}(); }` : `.${name} { ${rule} }`);
+    rules.push(toCSSRule(file, name, rule));
     rules.sort();
   }
   saveFileCSS();
@@ -289,7 +294,7 @@ function updateFileCustom(file, rule_full) {
   const name = name_candidate[0] === "." ? name_candidate.slice(1) : name_candidate;
   const rule = rule_candidate + (rule_candidate[rule_candidate.length - 1] === ";" ? "" : ";");
   const [, , rules] = fileDataCSS(file);
-  const rule_final = isFileExtEq(file, "scss") ? `@mixin ${name} { ${rule} } .${name} { @include ${name}(); }` : `.${name} { ${rule} }`;
+  const rule_final = toCSSRule(file, name, rule);
   log(2, rule_final);
   rules.push(rule_final);
   rules.sort();
@@ -411,7 +416,8 @@ function fromMixed(convert_candidate) {
 function fromClassToInclude(file, line) {
   log(1, "@g_printing…");
   const rules = line.split(" ").map(r => r.trim()).sort();
-  logLines(1, isFileExtEq(file, "scss") ? rules.map(r => `@include ${r}();`) : rules.map(r => fromClass(r)[1]));
+  const convertRule = isFileExtEq(file, "scss") ? r => `@include ${r}();` : (isFileExtEq(file, "styl") ? r => r + "();" : r => fromClass(r)[1]);
+  logLines(1, rules.map(convertRule));
 }
 const {
   createInterface

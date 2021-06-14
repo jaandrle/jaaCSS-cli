@@ -272,7 +272,7 @@ function isFileExtEq(file, target = "scss") {
 
 function toCSSRule(file, name, rule) {
   if (isFileExtEq(file, "scss")) return `@mixin ${name} { ${rule} } .${name} { @include ${name}(); }`;
-  if (isFileExtEq(file, "styl")) return `${name}() { ${rule} } .${name} { ${name}(); }`;
+  if (isFileExtEq(file, "styl")) return `${name}() { ${rule} } .${name} { ${rule}; }`;
   return `.${name} { ${rule} }`;
 }
 

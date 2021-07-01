@@ -11,7 +11,7 @@
  */
 const info = {
   name: __filename.slice(__filename.lastIndexOf("/") + 1, __filename.lastIndexOf(".")),
-  version: "1.3.0",
+  version: "1.3.1",
   description: "EXPERIMENT – Helper for managing functional CSS classes",
   cwd: process.cwd(),
   /** @type {T_info_cmd[]} */

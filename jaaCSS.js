@@ -94,7 +94,7 @@ function error(e) {
  * @returns {T_cli_arg}
  */
 function getCurrent(args) {
-  let command, param;
+  let command, param, options = {};
   const inArgsList = arg => ({
     args
   }) => args.includes(arg);
@@ -103,7 +103,13 @@ function getCurrent(args) {
     } = args, ci, arg; i < length; i++) {
     arg = args[i];
     ci = info.commands.findIndex(inArgsList(arg));
-    if (ci === -1) continue;
+    if (ci === -1) {
+      const arg_next = args[i + 1];
+      const is_arg_next_name = !arg_next || arg_next.indexOf("--") === 0;
+      Reflect.set(options, arg.replace("--", ""), is_arg_next_name ? true : arg_next);
+      if (!is_arg_next_name) i += 1;
+      continue;
+    }
     command = info.commands[ci];
     if (!command.param) continue;
     i += 1;
@@ -115,7 +121,8 @@ function getCurrent(args) {
   if (command.param && typeof param === "undefined") return error(`Missign argument(s).`);
   return {
     command,
-    param
+    param,
+    options
   };
 }
 /**
@@ -190,7 +197,7 @@ function showHTML({
   param: file
 }) {
   file = filePathExpanded(file);
-  if (!existsSync(file)) return "";
+  if (!existsSync(file)) return [""];
   let out = new Set();
   const is_jaaCSS = c => c.indexOf("__") !== -1;
   const append = c => out.add(c);
@@ -423,7 +430,8 @@ const {
   createInterface
 } = require("readline");
 async function shell_({
-  param: file
+  param: file,
+  options
 }) {
   if (!file) throw Error("No 'file' defined");
   process.stdout.write(String.fromCharCode(27) + "]0;" + info.name + ": interactive mode" + String.fromCharCode(7));
@@ -435,6 +443,7 @@ async function shell_({
   const filterFileData = line => fileDataCSS(file)[2].filter(l => l.indexOf(line.slice(1).trim()) !== -1).forEach(l => log(2, l));
   log(1, "@s_Interactive shell");
   logLines(1, shell_cmds);
+  if (options.in) rl.write(options.in);
   while (true) {
     const line = await command_(rl);
     if (!line) continue;
@@ -477,8 +486,8 @@ function command_(rl) {
   });
 }
 (async function main_() {
-  printMain();
   const current = getCurrent(process.argv.slice(2));
+  if (current.command.cmd !== "eval") printMain();
   switch (current.command.cmd) {
   case "help":
     return printHelp();
@@ -489,6 +498,6 @@ function command_(rl) {
   case "shell":
     return shell_(current);
   case "eval":
-    return logRule(1, fromMixed(current.param));
+    return logRule(0, fromMixed(current.param));
   }
 })().then(() => process.exit()).catch(error);
